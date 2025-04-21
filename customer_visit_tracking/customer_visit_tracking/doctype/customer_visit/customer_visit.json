@@ -1,4 +1,5 @@
 {
+ "autoname": "CV.#####",
  "actions": [],
  "allow_rename": 1,
  "creation": "2025-04-21 18:33:04.748883",
@@ -7,15 +8,58 @@
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "test"
- ],
- "fields": [
-  {
-   "fieldname": "test",
-   "fieldtype": "Data",
-   "label": "test"
-  }
- ],
+    "customer_section",
+    "customer",
+    "visit_date",
+    "purpose",
+    "details_section",
+    "notes",
+    "workflow_state"
+  ],
+  "fields": [
+    {
+      "fieldname": "customer_section",
+      "fieldtype": "Section Break",
+      "label": "Customer Information"
+    },
+    {
+      "fieldname": "customer",
+      "fieldtype": "Link",
+      "label": "Customer",
+      "options": "Customer",
+      "reqd": 1
+    },
+    {
+      "fieldname": "visit_date",
+      "fieldtype": "Date",
+      "label": "Visit Date",
+      "reqd": 1
+    },
+    {
+      "fieldname": "purpose",
+      "fieldtype": "Select",
+      "label": "Purpose",
+      "options": "Meeting\nFollow-up\nDemo",
+      "reqd": 1
+    },
+    {
+      "fieldname": "details_section",
+      "fieldtype": "Section Break",
+      "label": "Visit Details"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Text Editor",
+      "label": "Notes"
+    },
+    {
+      "fieldname": "workflow_state",
+      "fieldtype": "Link",
+      "label": "Workflow State",
+      "options": "Workflow State",
+      "hidden": 1
+    }
+  ],
  "index_web_pages_for_search": 1,
  "links": [],
  "modified": "2025-04-21 18:33:04.748883",
@@ -24,20 +68,33 @@
  "name": "Customer Visit",
  "owner": "Administrator",
  "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Sales User",
+      "share": 1,
+      "write": 1
+    },
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "Sales Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
  "sort_field": "modified",
  "sort_order": "DESC",
+ "track_changes": 1,
  "states": []
 }
