@@ -8,7 +8,7 @@ class CustomerVisit(Document):
 	def on_update(self):
 		self.check_visit_completeness()
 	
-	def check_visit_completeness(doc, method):
+	def check_visit_completeness(doc):
 		"""Check if the visit has all required information and notify if incomplete"""
 		if doc.workflow_state in ["Under Review", "Approved"] and not doc.notes:
 			user = frappe.get_doc("User", frappe.session.user)
