@@ -4,7 +4,7 @@ frappe.listview_settings["Customer Visit"] = {
             frappe.call({
                 method: "customer_visit_tracking.visit_controller.check_incomplete_visits",
                 callback: function(r) {
-                    if (r.message) {
+                    if (r.message.length > 0) {
                         frappe.msgprint({
                             title: __("Incomplete Visits"),
                             indicator: "orange",
