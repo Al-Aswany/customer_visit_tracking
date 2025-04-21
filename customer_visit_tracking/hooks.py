@@ -127,23 +127,11 @@ app_license = "MIT"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"customer_visit_tracking.tasks.all"
-# 	],
-# 	"daily": [
-# 		"customer_visit_tracking.tasks.daily"
-# 	],
-# 	"hourly": [
-# 		"customer_visit_tracking.tasks.hourly"
-# 	],
-# 	"weekly": [
-# 		"customer_visit_tracking.tasks.weekly"
-# 	],
-# 	"monthly": [
-# 		"customer_visit_tracking.tasks.monthly"
-# 	],
-# }
+scheduler_events = {
+    "hourly": [
+        "customer_visit_tracking.visit_controller.check_incomplete_visits"
+    ]
+}
 
 # Testing
 # -------
