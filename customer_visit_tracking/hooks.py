@@ -173,6 +173,21 @@ scheduler_events = {
 
 # User Data Protection
 # --------------------
+fixtures = [
+    {
+        'dt': 'Workflow',
+        'filters': {
+            'name': ['in', ['Customer Visit Approval']]
+        }
+    },
+    {
+        'dt': 'Workflow State',
+        'filters': {
+            'name': ['in', ['Draft', 'Under Review', 'Approved']]
+        }
+    },
+
+]
 
 # user_data_fields = [
 # 	{
