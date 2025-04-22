@@ -1,4 +1,5 @@
 import frappe
+from .utils.socket_helper import emit_via_socket
 
 
 @frappe.whitelist()
@@ -6,25 +7,26 @@ def check_incomplete_visits():
     """Check for visits with missing notes and notify owners"""
     incomplete_visits = frappe.get_all(
         "Customer Visit",
-        filters={"notes": ["is", "not set"], "workflow_state": ["!=", "Draft"]},
+        filters={"notes": ["is", "not set"] },
         fields=["name", "customer", "visit_date", "owner"]
     )
     
     for visit in incomplete_visits:
         user = frappe.get_doc("User", visit.owner)
         
-        # Send email notification
-        frappe.sendmail(
-            recipients=[user.email],
-            subject=f"Incomplete Visit Data: {visit.name}",
-            message=f"""
-            <p>Dear {user.full_name},</p>
-            <p>The customer visit {visit.name} for {visit.customer} on {visit.visit_date} is missing notes.</p>
-            <p>Please complete this information at your earliest convenience.</p>
-            """
-        )
+        # Create notification log
+        notification = frappe.get_doc({
+            "doctype": "Notification Log",
+            "subject": f"Incomplete Visit Data: {visit.name}",
+            "for_user": user.name,
+            "type": "Alert",
+            "document_type": "Customer Visit",
+            "document_name": visit.name,
+            "read": 0,
+            "notification_message": f"The customer visit {visit.name} for {visit.customer} is missing notes."
+        }).insert(ignore_permissions=True)
         
-        # Log the notification
+
         frappe.log_error(
             title="Incomplete Visit Notification",
             message=f"Notification sent for visit {visit.name} to {user.email}"
@@ -42,16 +44,19 @@ def notify_manager_on_approval(doc):
     )
     
     for manager in managers:
-        frappe.sendmail(
-            recipients=[manager.email],
-            subject=f"Visit Approved: {doc.name}",
-            message=f"""
-            <p>Dear {manager.full_name},</p>
-            <p>The customer visit {doc.name} for {doc.customer} has been approved.</p>
-            <p>Visit Details:</p>
-            <ul>
-                <li>Date: {doc.visit_date}</li>
-                <li>Purpose: {doc.purpose}</li>
-            </ul>
-            """
-        )
+        print(f"Notifying manager: {manager.full_name} ({manager.email})")
+        
+        # Create notification log
+        notification = frappe.get_doc({
+            "doctype": "Notification Log",
+            "subject": f"Visit Approved: {doc.name}",
+            "for_user": manager.name,
+            "type": "Alert",
+            "document_type": "Customer Visit",
+            "document_name": doc.name,
+            "read": 0,
+            "notification_message": f"The customer visit {doc.name} for {doc.customer} has been approved."
+        }).insert(ignore_permissions=True)
+        
+
+        
