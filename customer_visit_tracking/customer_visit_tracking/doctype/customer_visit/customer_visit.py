@@ -3,7 +3,7 @@
 
 import frappe
 from frappe.model.document import Document
-from customer_visit_tracking.utils.socket_helper import emit_via_socket
+
 from customer_visit_tracking.visit_controller import notify_manager_on_approval
 
 class CustomerVisit(Document):
